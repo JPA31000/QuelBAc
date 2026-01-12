@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orientation 2EMNB - Basé sur les Référentiels Officiels</title>
+    <style>
+        :root {
+            --tebaa: #e67e22; /* Assistant Archi - Orange */
+            --tebee: #2980b9; /* Etudes & Eco - Bleu */
+            --topo: #27ae60;  /* Topographe - Vert */
+            --bg: #f8f9fa;
+            --text: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            background: white;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: #34495e;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        header h1 { margin: 0; font-size: 1.6rem; }
+        header p { margin: 10px 0 0; opacity: 0.8; font-size: 0.9rem; }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 6px;
+            background: #e9ecef;
+            width: 100%;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #2c3e50;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Quiz Body */
+        .quiz-body {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: #fff;
+            border: 2px solid #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn:hover {
+            border-color: #34495e;
+            background: #f1f3f5;
+            transform: translateX(5px);
+        }
+
+        .option-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #7f8c8d;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .option-content {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Results */
+        .result-body {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.6s;
+        }
+
+        .winner-card {
+            border: 4px solid #ddd;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            background: #fff;
+            text-align: center;
+        }
+
+        .winner-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .winner-title {
+            font-size: 2rem;
+            margin: 0 0 10px;
+            color: var(--text);
+        }
+
+        .winner-code {
+            font-family: monospace;
+            background: #eee;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .competence-list {
+            text-align: left;
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .competence-list h3 {
+            font-size: 1rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        .competence-list ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        .competence-list li {
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .btn-restart {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #34495e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .btn-restart:hover { background: #2c3e50; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Styles dynamiques pour les résultats */
+        .res-aa { border-color: var(--tebaa); }
+        .res-aa .winner-badge { background: var(--tebaa); }
+        .res-aa .winner-title { color: var(--tebaa); }
+
+        .res-ee { border-color: var(--tebee); }
+        .res-ee .winner-badge { background: var(--tebee); }
+        .res-ee .winner-title { color: var(--tebee); }
+
+        .res-topo { border-color: var(--topo); }
+        .res-topo .winner-badge { background: var(--topo); }
+        .res-topo .winner-title { color: var(--topo); }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>Orientation 2EMNB</h1>
+        <p>Outil d'aide à la décision basé sur la Fiche Compétences & Référentiels Officiels</p>
+    </header>
+    
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="quiz-body" id="quizInterface">
+        <div class="question-text" id="question">Chargement...</div>
+        <div class="options-grid" id="options"></div>
+    </div>
+
+    <div class="result-body" id="resultInterface">
+        <div class="winner-card" id="winnerCard">
+            <span class="winner-badge" id="winnerBadge">RÉSULTAT</span>
+            <h2 class="winner-title" id="winnerTitle">...</h2>
+            <div class="winner-code" id="winnerCode">Code RNCP ...</div>
+            
+            <div class="competence-list">
+                <h3>Tes points forts détectés (selon tes réponses) :</h3>
+                <ul id="detectedSkills"></ul>
+            </div>
+
+            <div class="competence-list" style="margin-top:15px; background:white; border:1px solid #eee;">
+                <h3>Ce que dit le référentiel officiel :</h3>
+                <p id="refDescription" style="font-size:0.95rem; line-height:1.5;"></p>
+            </div>
+        </div>
+        <button class="btn-restart" onclick="location.reload()">Refaire le test</button>
+    </div>
+</div>
+
+<script>
+    // DONNÉES BASÉES STRICTEMENT SUR LE FICHIER FOURNI
+    const data = {
+        questions: [
+            {
+                q: "Quelle compétence humaine (Savoir-être) te correspond le mieux ?",
+                opts: [
+                    { txt: "Créativité & Minutie (Sens de l'esthétique, détail graphique)", type: "AA" },
+                    { txt: "Rigueur & Logique (Exactitude des chiffres, esprit d'analyse)", type: "EE" },
+                    { txt: "Mobilité & Autonomie (Aimer l'extérieur, se débrouiller seul)", type: "TOPO" }
+                ]
+            },
+            {
+                q: "Avec quels outils numériques préfères-tu travailler ?",
+                opts: [
+                    { txt: "Tableurs (Excel) et logiciels de devis (Batigest, Attic+)", type: "EE" },
+                    { txt: "Logiciels CAO/DAO (Revit, ArchiCAD) et rendu réaliste (Photoshop)", type: "AA" },
+                    { txt: "Appareils de mesure (GPS/GNSS, Station Totale) et DAO Topo", type: "TOPO" }
+                ]
+            },
+            {
+                q: "Quelle activité clé t'intéresse le plus ?",
+                opts: [
+                    { txt: "Acquisition de données terrain (Bloc 1) et Droit foncier (Bloc 2)", type: "TOPO" },
+                    { txt: "Conception de maquette BIM et Constitution de Permis de Construire", type: "AA" },
+                    { txt: "Étude de prix, Prescription (CCTP) et Planification (Gantt)", type: "EE" }
+                ]
+            },
+            {
+                q: "Dans tes relations sociales professionnelles, tu te sens plus à l'aise pour :",
+                opts: [
+                    { txt: "Négocier fermement des prix et argumenter des choix économiques", type: "EE" },
+                    { txt: "Faire preuve de diplomatie (voisinage) et d'autorité technique (bornage)", type: "TOPO" },
+                    { txt: "Utiliser la communication visuelle pour 'vendre' un projet (Écoute active)", type: "AA" }
+                ]
+            },
+            {
+                q: "Quelle mission technique te motive ?",
+                opts: [
+                    { txt: "Traduire graphiquement une solution (Esquisse, APS)", type: "AA" },
+                    { txt: "Implanter un ouvrage et réaliser des plans de division parcellaire", type: "TOPO" },
+                    { txt: "Quantifier les ouvrages (Métrés) et estimer les coûts (Devis)", type: "EE" }
+                ]
+            }
+        ],
+        profiles: {
+            "AA": {
+                title: "TEB Option B : ASSISTANT EN ARCHITECTURE",
+                code: "Code RNCP 38317",
+                colorClass: "res-aa",
+                desc: "Selon le référentiel, tu travailleras sur la cohérence du projet (C2), la conception graphique (C3) et la justification par l'image (C4). Ton quotidien : Relevé d'ouvrage, BIM et Permis de Construire.",
+                skills: [
+                    "Maîtrise experte CAO/DAO (Revit, ArchiCAD)",
+                    "Rendu réaliste et retouche photo",
+                    "Créativité et sens de l'esthétique",
+                    "Constitution de dossiers administratifs (PC, DP)"
+                ]
+            },
+            "EE": {
+                title: "TEB Option A : ÉTUDES ET ÉCONOMIE",
+                code: "Code RNCP 39033",
+                colorClass: "res-ee",
+                desc: "Le référentiel met l'accent sur la décomposition du projet (C2), la préparation des quantitatifs/estimatifs (C3) et la validation économique (C4). Ton quotidien : Étude de prix, CCTP et Suivi financier.",
+                skills: [
+                    "Maîtrise des tableurs et logiciels de devis",
+                    "Calculs dimensionnels complexes",
+                    "Rigueur et exactitude des chiffres",
+                    "Négociation et planification (Gantt)"
+                ]
+            },
+            "TOPO": {
+                title: "BAC PRO GÉOMÈTRE TOPOGRAPHE",
+                code: "Code RNCP 39269",
+                colorClass: "res-topo",
+                desc: "Tes missions s'articulent autour des 3 Blocs : Mission Topographique (Levé/Implantation), Mission Foncière (Bornage) et Traitement numérique. Ton quotidien : Terrain, GPS, Drone et Bureau.",
+                skills: [
+                    "Utilisation Station Totale, GNSS, Scanner 3D",
+                    "Droit foncier et bornage",
+                    "Mobilité et travail en extérieur",
+                    "Diplomatie et contact client"
+                ]
+            }
+        }
+    };
+
+    let currentStep = 0;
+    let scores = { AA: 0, EE: 0, TOPO: 0 };
+
+    const dom = {
+        quiz: document.getElementById('quizInterface'),
+        result: document.getElementById('resultInterface'),
+        question: document.getElementById('question'),
+        options: document.getElementById('options'),
+        progress: document.getElementById('progress'),
+        
+        card: document.getElementById('winnerCard'),
+        badge: document.getElementById('winnerBadge'),
+        title: document.getElementById('winnerTitle'),
+        code: document.getElementById('winnerCode'),
+        desc: document.getElementById('refDescription'),
+        list: document.getElementById('detectedSkills')
+    };
+
+    function displayQuestion() {
+        const qData = data.questions[currentStep];
+        dom.question.textContent = qData.q;
+        dom.options.innerHTML = '';
+
+        // Mise à jour barre de progression
+        dom.progress.style.width = ((currentStep / data.questions.length) * 100) + '%';
+
+        // Mélange aléatoire des options pour ne pas avoir de biais de position
+        const shuffledOpts = [...qData.opts].sort(() => Math.random() - 0.5);
+
+        shuffledOpts.forEach(opt => {
+            const btn = document.createElement('div');
+            btn.className = 'option-btn';
+            
+            // Détermine la catégorie pour l'affichage (optionnel, pour guider l'élève)
+            let catText = "Compétence";
+            if(currentStep === 0) catText = "Savoir-être";
+            if(currentStep === 1) catText = "Outils & Tech";
+            
+            btn.innerHTML = `
+                <span class="option-category">${catText}</span>
+                <div class="option-content">${opt.txt}</div>
+            `;
+            
+            btn.onclick = () => {
+                scores[opt.type]++;
+                nextStep();
+            };
+            dom.options.appendChild(btn);
+        });
+    }
+
+    function nextStep() {
+        currentStep++;
+        if (currentStep < data.questions.length) {
+            displayQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        dom.quiz.style.display = 'none';
+        dom.result.style.display = 'block';
+        dom.progress.style.width = '100%';
+
+        // Déterminer le gagnant
+        const winnerKey = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        const winnerData = data.profiles[winnerKey];
+
+        // Affichage
+        dom.card.className = `winner-card ${winnerData.colorClass}`;
+        dom.badge.textContent = "PROFIL RECOMMANDÉ";
+        dom.title.textContent = winnerData.title;
+        dom.code.textContent = winnerData.code;
+        dom.desc.textContent = winnerData.desc;
+
+        // Liste des compétences
+        dom.list.innerHTML = "";
+        winnerData.skills.forEach(skill => {
+            let li = document.createElement('li');
+            li.textContent = skill;
+            dom.list.appendChild(li);
+        });
+    }
+
+    // Démarrage
+    displayQuestion();
+
+</script>
+
+</body>
+</html>
