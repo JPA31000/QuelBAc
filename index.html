@@ -2,424 +2,388 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orientation 2EMNB - Basé sur les Référentiels Officiels</title>
+    <title>Fiche Compétences 2EMNB - Référentiels Officiels</title>
     <style>
-        :root {
-            --tebaa: #e67e22; /* Assistant Archi - Orange */
-            --tebee: #2980b9; /* Etudes & Eco - Bleu */
-            --topo: #27ae60;  /* Topographe - Vert */
-            --bg: #f8f9fa;
-            --text: #2c3e50;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Segoe UI', sans-serif;
+            background: #e9ecef;
             margin: 0;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
+            color: #2d3436;
+            line-height: 1.4;
         }
 
-        .app-container {
+        .page {
             background: white;
-            max-width: 800px;
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            width: 210mm; /* Format A4 */
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15mm;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-sizing: border-box;
         }
 
-        /* Header */
+        /* En-tête Global */
         header {
-            background: #34495e;
-            color: white;
-            padding: 25px;
             text-align: center;
-        }
-        header h1 { margin: 0; font-size: 1.6rem; }
-        header p { margin: 10px 0 0; opacity: 0.8; font-size: 0.9rem; }
-
-        /* Progress Bar */
-        .progress-bar {
-            height: 6px;
-            background: #e9ecef;
-            width: 100%;
-        }
-        .progress-fill {
-            height: 100%;
-            background: #2c3e50;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        /* Quiz Body */
-        .quiz-body {
-            padding: 30px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .question-text {
-            font-size: 1.3rem;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .options-grid {
-            display: grid;
-            gap: 15px;
-        }
-
-        .option-btn {
-            background: #fff;
-            border: 2px solid #e9ecef;
-            padding: 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option-btn:hover {
-            border-color: #34495e;
-            background: #f1f3f5;
-            transform: translateX(5px);
-        }
-
-        .option-category {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: #7f8c8d;
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        .option-content {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        /* Results */
-        .result-body {
-            display: none;
-            padding: 30px;
-            animation: fadeIn 0.6s;
-        }
-
-        .winner-card {
-            border: 4px solid #ddd;
-            border-radius: 12px;
-            padding: 25px;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 15px;
             margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-transform: uppercase;
+            font-size: 1.6em;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1em;
+            color: #636e72;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Structure des blocs Métier */
+        .metier-section {
+            margin-bottom: 25px;
+            border-radius: 12px;
+            overflow: hidden;
             background: #fff;
-            text-align: center;
+            border: 1px solid #dfe6e9;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            page-break-inside: avoid;
         }
 
-        .winner-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
+        .metier-header {
+            padding: 10px 20px;
             color: white;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .winner-title {
-            font-size: 2rem;
-            margin: 0 0 10px;
-            color: var(--text);
+        .metier-header h2 {
+            margin: 0;
+            font-size: 1.3em;
+            font-weight: 700;
         }
 
-        .winner-code {
-            font-family: monospace;
-            background: #eee;
+        .code-bac {
+            font-size: 0.8em;
+            background: rgba(255,255,255,0.2);
             padding: 3px 8px;
             border-radius: 4px;
-            font-size: 0.9rem;
-            color: #555;
+            margin-left: 10px;
         }
 
-        .competence-list {
-            text-align: left;
-            margin-top: 20px;
+        /* Couleurs Thématiques */
+        .header-aa { background: linear-gradient(135deg, #e67e22, #d35400); }
+        .header-ee { background: linear-gradient(135deg, #2980b9, #2c3e50); }
+        .header-topo { background: linear-gradient(135deg, #27ae60, #16a085); }
+
+        .metier-body {
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Section Référentiel (Pleine largeur) */
+        .ref-officiel {
+            grid-column: 1 / -1;
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .competence-list h3 {
-            font-size: 1rem;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-            margin-top: 0;
-        }
-
-        .competence-list ul {
-            padding-left: 20px;
-            margin-bottom: 0;
-        }
-
-        .competence-list li {
+            border-left: 4px solid #b2bec3;
+            padding: 10px 15px;
             margin-bottom: 5px;
-            font-size: 0.95rem;
-        }
-
-        .btn-restart {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: #34495e;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            margin-top: 20px;
+            border-radius: 0 4px 4px 0;
         }
         
-        .btn-restart:hover { background: #2c3e50; }
+        .aa .ref-officiel { border-color: #e67e22; background: #fff5eb; }
+        .ee .ref-officiel { border-color: #2980b9; background: #eaf4fc; }
+        .topo .ref-officiel { border-color: #27ae60; background: #eafaf1; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .ref-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+            display: block;
+            color: #2d3436;
+        }
 
-        /* Styles dynamiques pour les résultats */
-        .res-aa { border-color: var(--tebaa); }
-        .res-aa .winner-badge { background: var(--tebaa); }
-        .res-aa .winner-title { color: var(--tebaa); }
+        /* Blocs de Compétences */
+        .skill-group {
+            margin-bottom: 10px;
+        }
 
-        .res-ee { border-color: var(--tebee); }
-        .res-ee .winner-badge { background: var(--tebee); }
-        .res-ee .winner-title { color: var(--tebee); }
+        .skill-group h3 {
+            font-size: 0.95em;
+            color: #2d3436;
+            border-bottom: 1px solid #dfe6e9;
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
 
-        .res-topo { border-color: var(--topo); }
-        .res-topo .winner-badge { background: var(--topo); }
-        .res-topo .winner-title { color: var(--topo); }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
+        li {
+            font-size: 0.9em;
+            margin-bottom: 4px;
+            padding-left: 15px;
+            position: relative;
+            color: #444;
+        }
+
+        li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .aa li::before { color: #e67e22; }
+        .ee li::before { color: #2980b9; }
+        .topo li::before { color: #27ae60; }
+
+        /* Pied de page */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.75em;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        /* Bouton Impression */
+        .no-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-align: center;
+        }
+        button {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        button:hover { background: #34495e; }
+
+        @media print {
+            body { background: white; margin: 0; padding: 0; }
+            .page { box-shadow: none; margin: 0; width: 100%; padding: 0; }
+            .no-print { display: none; }
+            .metier-section { break-inside: avoid; }
+        }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <header>
-        <h1>Orientation 2EMNB</h1>
-        <p>Outil d'aide à la décision basé sur la Fiche Compétences & Référentiels Officiels</p>
-    </header>
-    
-    <div class="progress-bar">
-        <div class="progress-fill" id="progress"></div>
-    </div>
-
-    <div class="quiz-body" id="quizInterface">
-        <div class="question-text" id="question">Chargement...</div>
-        <div class="options-grid" id="options"></div>
-    </div>
-
-    <div class="result-body" id="resultInterface">
-        <div class="winner-card" id="winnerCard">
-            <span class="winner-badge" id="winnerBadge">RÉSULTAT</span>
-            <h2 class="winner-title" id="winnerTitle">...</h2>
-            <div class="winner-code" id="winnerCode">Code RNCP ...</div>
-            
-            <div class="competence-list">
-                <h3>Tes points forts détectés (selon tes réponses) :</h3>
-                <ul id="detectedSkills"></ul>
-            </div>
-
-            <div class="competence-list" style="margin-top:15px; background:white; border:1px solid #eee;">
-                <h3>Ce que dit le référentiel officiel :</h3>
-                <p id="refDescription" style="font-size:0.95rem; line-height:1.5;"></p>
-            </div>
-        </div>
-        <button class="btn-restart" onclick="location.reload()">Refaire le test</button>
-    </div>
+<div class="no-print">
+    <button onclick="window.print()">🖨️ Imprimer / PDF</button>
 </div>
 
-<script>
-    // DONNÉES BASÉES STRICTEMENT SUR LE FICHIER FOURNI
-    const data = {
-        questions: [
-            {
-                q: "Quelle compétence humaine (Savoir-être) te correspond le mieux ?",
-                opts: [
-                    { txt: "Créativité & Minutie (Sens de l'esthétique, détail graphique)", type: "AA" },
-                    { txt: "Rigueur & Logique (Exactitude des chiffres, esprit d'analyse)", type: "EE" },
-                    { txt: "Mobilité & Autonomie (Aimer l'extérieur, se débrouiller seul)", type: "TOPO" }
-                ]
-            },
-            {
-                q: "Avec quels outils numériques préfères-tu travailler ?",
-                opts: [
-                    { txt: "Tableurs (Excel) et logiciels de devis (Batigest, Attic+)", type: "EE" },
-                    { txt: "Logiciels CAO/DAO (Revit, ArchiCAD) et rendu réaliste (Photoshop)", type: "AA" },
-                    { txt: "Appareils de mesure (GPS/GNSS, Station Totale) et DAO Topo", type: "TOPO" }
-                ]
-            },
-            {
-                q: "Quelle activité clé t'intéresse le plus ?",
-                opts: [
-                    { txt: "Acquisition de données terrain (Bloc 1) et Droit foncier (Bloc 2)", type: "TOPO" },
-                    { txt: "Conception de maquette BIM et Constitution de Permis de Construire", type: "AA" },
-                    { txt: "Étude de prix, Prescription (CCTP) et Planification (Gantt)", type: "EE" }
-                ]
-            },
-            {
-                q: "Dans tes relations sociales professionnelles, tu te sens plus à l'aise pour :",
-                opts: [
-                    { txt: "Négocier fermement des prix et argumenter des choix économiques", type: "EE" },
-                    { txt: "Faire preuve de diplomatie (voisinage) et d'autorité technique (bornage)", type: "TOPO" },
-                    { txt: "Utiliser la communication visuelle pour 'vendre' un projet (Écoute active)", type: "AA" }
-                ]
-            },
-            {
-                q: "Quelle mission technique te motive ?",
-                opts: [
-                    { txt: "Traduire graphiquement une solution (Esquisse, APS)", type: "AA" },
-                    { txt: "Implanter un ouvrage et réaliser des plans de division parcellaire", type: "TOPO" },
-                    { txt: "Quantifier les ouvrages (Métrés) et estimer les coûts (Devis)", type: "EE" }
-                ]
-            }
-        ],
-        profiles: {
-            "AA": {
-                title: "TEB Option B : ASSISTANT EN ARCHITECTURE",
-                code: "Code RNCP 38317",
-                colorClass: "res-aa",
-                desc: "Selon le référentiel, tu travailleras sur la cohérence du projet (C2), la conception graphique (C3) et la justification par l'image (C4). Ton quotidien : Relevé d'ouvrage, BIM et Permis de Construire.",
-                skills: [
-                    "Maîtrise experte CAO/DAO (Revit, ArchiCAD)",
-                    "Rendu réaliste et retouche photo",
-                    "Créativité et sens de l'esthétique",
-                    "Constitution de dossiers administratifs (PC, DP)"
-                ]
-            },
-            "EE": {
-                title: "TEB Option A : ÉTUDES ET ÉCONOMIE",
-                code: "Code RNCP 39033",
-                colorClass: "res-ee",
-                desc: "Le référentiel met l'accent sur la décomposition du projet (C2), la préparation des quantitatifs/estimatifs (C3) et la validation économique (C4). Ton quotidien : Étude de prix, CCTP et Suivi financier.",
-                skills: [
-                    "Maîtrise des tableurs et logiciels de devis",
-                    "Calculs dimensionnels complexes",
-                    "Rigueur et exactitude des chiffres",
-                    "Négociation et planification (Gantt)"
-                ]
-            },
-            "TOPO": {
-                title: "BAC PRO GÉOMÈTRE TOPOGRAPHE",
-                code: "Code RNCP 39269",
-                colorClass: "res-topo",
-                desc: "Tes missions s'articulent autour des 3 Blocs : Mission Topographique (Levé/Implantation), Mission Foncière (Bornage) et Traitement numérique. Ton quotidien : Terrain, GPS, Drone et Bureau.",
-                skills: [
-                    "Utilisation Station Totale, GNSS, Scanner 3D",
-                    "Droit foncier et bornage",
-                    "Mobilité et travail en extérieur",
-                    "Diplomatie et contact client"
-                ]
-            }
-        }
-    };
+<div class="page">
+    <header>
+        <h1>Orientation 2EMNB - Analyse des Compétences</h1>
+        <div class="subtitle">Tableau comparatif basé sur les Référentiels de Certification de l'Éducation Nationale</div>
+    </header>
 
-    let currentStep = 0;
-    let scores = { AA: 0, EE: 0, TOPO: 0 };
-
-    const dom = {
-        quiz: document.getElementById('quizInterface'),
-        result: document.getElementById('resultInterface'),
-        question: document.getElementById('question'),
-        options: document.getElementById('options'),
-        progress: document.getElementById('progress'),
-        
-        card: document.getElementById('winnerCard'),
-        badge: document.getElementById('winnerBadge'),
-        title: document.getElementById('winnerTitle'),
-        code: document.getElementById('winnerCode'),
-        desc: document.getElementById('refDescription'),
-        list: document.getElementById('detectedSkills')
-    };
-
-    function displayQuestion() {
-        const qData = data.questions[currentStep];
-        dom.question.textContent = qData.q;
-        dom.options.innerHTML = '';
-
-        // Mise à jour barre de progression
-        dom.progress.style.width = ((currentStep / data.questions.length) * 100) + '%';
-
-        // Mélange aléatoire des options pour ne pas avoir de biais de position
-        const shuffledOpts = [...qData.opts].sort(() => Math.random() - 0.5);
-
-        shuffledOpts.forEach(opt => {
-            const btn = document.createElement('div');
-            btn.className = 'option-btn';
+    <section class="metier-section aa">
+        <div class="metier-header header-aa">
+            <h2>TEB Option B : ASSISTANT EN ARCHITECTURE</h2>
+            <span class="code-bac">Code RNCP 38317</span>
+        </div>
+        <div class="metier-body">
             
-            // Détermine la catégorie pour l'affichage (optionnel, pour guider l'élève)
-            let catText = "Compétence";
-            if(currentStep === 0) catText = "Savoir-être";
-            if(currentStep === 1) catText = "Outils & Tech";
-            
-            btn.innerHTML = `
-                <span class="option-category">${catText}</span>
-                <div class="option-content">${opt.txt}</div>
-            `;
-            
-            btn.onclick = () => {
-                scores[opt.type]++;
-                nextStep();
-            };
-            dom.options.appendChild(btn);
-        });
-    }
+            <div class="ref-officiel">
+                <span class="ref-title">📜 Compétences du Référentiel (Extraits)</span>
+                <ul>
+                    <li><strong>C2 - Analyser :</strong> Vérifier la cohérence du projet architectural avec les contraintes (PLU, techniques).</li>
+                    <li><strong>C3 - Proposer / Concevoir :</strong> Traduire graphiquement une solution architecturale (Esquisse, APS).</li>
+                    <li><strong>C4 - Justifier :</strong> Rédiger une notice architecturale, valoriser le projet par l'image.</li>
+                    <li><strong>Activités clés :</strong> Relevé d'ouvrage, Conception de la maquette numérique (BIM), Constitution du dossier de Permis de Construire.</li>
+                </ul>
+            </div>
 
-    function nextStep() {
-        currentStep++;
-        if (currentStep < data.questions.length) {
-            displayQuestion();
-        } else {
-            showResults();
-        }
-    }
+            <div class="skill-group">
+                <h3>🛠️ Compétences Techniques (Savoir-faire)</h3>
+                <ul>
+                    <li>Maîtrise experte des logiciels CAO/DAO (Revit, ArchiCAD, SketchUp).</li>
+                    <li>Techniques de rendu réaliste et retouche photo (Photoshop, Twinmotion).</li>
+                    <li>Dessin technique normé (Plans, Coupes, Façades) et croquis à main levée.</li>
+                    <li>Connaissance des styles architecturaux et du design.</li>
+                </ul>
+            </div>
 
-    function showResults() {
-        dom.quiz.style.display = 'none';
-        dom.result.style.display = 'block';
-        dom.progress.style.width = '100%';
+            <div class="skill-group">
+                <h3>💼 Compétences Professionnelles</h3>
+                <ul>
+                    <li>Produire les pièces graphiques d'un dossier administratif (PC, DP).</li>
+                    <li>Mettre à jour le dossier d'exécution (DCE) selon les modifications.</li>
+                    <li>Réaliser des insertions paysagères pour convaincre le client.</li>
+                    <li>Organiser l'arborescence d'un projet BIM.</li>
+                </ul>
+            </div>
 
-        // Déterminer le gagnant
-        const winnerKey = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-        const winnerData = data.profiles[winnerKey];
+            <div class="skill-group">
+                <h3>🧠 Compétences Humaines (Savoir-être)</h3>
+                <ul>
+                    <li><strong>Créativité :</strong> Avoir le sens de l'esthétique et des volumes.</li>
+                    <li><strong>Minutie :</strong> Être précis dans le détail graphique et la présentation.</li>
+                    <li><strong>Curiosité :</strong> S'intéresser aux tendances et innovations architecturales.</li>
+                </ul>
+            </div>
 
-        // Affichage
-        dom.card.className = `winner-card ${winnerData.colorClass}`;
-        dom.badge.textContent = "PROFIL RECOMMANDÉ";
-        dom.title.textContent = winnerData.title;
-        dom.code.textContent = winnerData.code;
-        dom.desc.textContent = winnerData.desc;
+            <div class="skill-group">
+                <h3>🤝 Compétences Sociales</h3>
+                <ul>
+                    <li><strong>Écoute active :</strong> Comprendre les désirs (parfois flous) du client.</li>
+                    <li><strong>Communication visuelle :</strong> Savoir "vendre" un projet par l'image.</li>
+                    <li><strong>Collaboration :</strong> Travailler en binôme étroit avec l'architecte.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        // Liste des compétences
-        dom.list.innerHTML = "";
-        winnerData.skills.forEach(skill => {
-            let li = document.createElement('li');
-            li.textContent = skill;
-            dom.list.appendChild(li);
-        });
-    }
+    <section class="metier-section ee">
+        <div class="metier-header header-ee">
+            <h2>TEB Option A : ÉTUDES ET ÉCONOMIE</h2>
+            <span class="code-bac">Code RNCP 39033</span>
+        </div>
+        <div class="metier-body">
 
-    // Démarrage
-    displayQuestion();
+            <div class="ref-officiel">
+                <span class="ref-title">📜 Compétences du Référentiel (Extraits)</span>
+                <ul>
+                    <li><strong>C2 - Analyser :</strong> Décomposer un projet en ouvrages élémentaires (Murs, sols...).</li>
+                    <li><strong>C3 - Préparer :</strong> Quantifier les ouvrages (Métrés) et estimer les coûts (Devis).</li>
+                    <li><strong>C4 - Valider :</strong> Vérifier la conformité économique et technique des travaux.</li>
+                    <li><strong>Activités clés :</strong> Étude de prix, Prescription (CCTP), Planification de chantier (OPC), Suivi financier.</li>
+                </ul>
+            </div>
 
-</script>
+            <div class="skill-group">
+                <h3>🛠️ Compétences Techniques (Savoir-faire)</h3>
+                <ul>
+                    <li>Maîtrise des tableurs (Excel) et logiciels de devis (Batigest, Attic+).</li>
+                    <li>Calculs dimensionnels complexes (Surfaces, Volumes, Ratios).</li>
+                    <li>Connaissance approfondie des matériaux et de leur coût.</li>
+                    <li>Techniques de planification temporelle (Diagramme de Gantt).</li>
+                </ul>
+            </div>
+
+            <div class="skill-group">
+                <h3>💼 Compétences Professionnelles</h3>
+                <ul>
+                    <li>Établir le DQE (Devis Quantitatif Estimatif) d'un projet.</li>
+                    <li>Consulter les fournisseurs et analyser leurs offres de prix.</li>
+                    <li>Préparer le chantier : définir les besoins en hommes et matériels.</li>
+                    <li>Rédiger les pièces écrites techniques (CCTP, PPSPS).</li>
+                </ul>
+            </div>
+
+            <div class="skill-group">
+                <h3>🧠 Compétences Humaines (Savoir-être)</h3>
+                <ul>
+                    <li><strong>Rigueur :</strong> Aimer l'exactitude des chiffres (pas d'erreur permise).</li>
+                    <li><strong>Logique :</strong> Avoir un esprit d'analyse et de déduction technique.</li>
+                    <li><strong>Anticipation :</strong> Prévoir les problèmes avant qu'ils n'arrivent.</li>
+                </ul>
+            </div>
+
+            <div class="skill-group">
+                <h3>🤝 Compétences Sociales</h3>
+                <ul>
+                    <li><strong>Négociation :</strong> Discuter fermement les prix avec les entreprises.</li>
+                    <li><strong>Argumentation :</strong> Justifier les choix économiques au maître d'ouvrage.</li>
+                    <li><strong>Organisation :</strong> Coordonner les différents intervenants sur le papier.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="metier-section topo">
+        <div class="metier-header header-topo">
+            <h2>BAC PRO GÉOMÈTRE TOPOGRAPHE</h2>
+            <span class="code-bac">Code RNCP 39269</span>
+        </div>
+        <div class="metier-body">
+
+            <div class="ref-officiel">
+                <span class="ref-title">📜 Compétences du Référentiel (Extraits)</span>
+                <ul>
+                    <li><strong>Bloc 1 - Mission Topographique :</strong> Réaliser un levé (XYZ), Implanter un ouvrage, Géoréférencer.</li>
+                    <li><strong>Bloc 2 - Mission Foncière :</strong> Participer au bornage, Analyser les limites de propriété.</li>
+                    <li><strong>Bloc 3 - Traitement :</strong> Traiter les données numériques, Produire des plans DAO.</li>
+                    <li><strong>Activités clés :</strong> Acquisition de données terrain (GPS/Drone), Dessin topographique, Droit foncier.</li>
+                </ul>
+            </div>
+
+            <div class="skill-group">
+                <h3>🛠️ Compétences Techniques (Savoir-faire)</h3>
+                <ul>
+                    <li>Utilisation d'appareils de mesure : Station Totale, GNSS (GPS), Scanner 3D.</li>
+                    <li>Pilotage de drone et photogrammétrie.</li>
+                    <li>Logiciels de DAO Topographique (Covadis, Mensura, AutoCAD).</li>
+                    <li>Calculs topométriques (Trigonométrie, Coordonnées).</li>
+                </ul>
+            </div>
+
+            <div class="skill-group">
+                <h3>💼 Compétences Professionnelles</h3>
+                <ul>
+                    <li>Matérialiser sur le terrain l'implantation d'une future construction.</li>
+                    <li>Détecter les réseaux enterrés (eau, gaz, électricité).</li>
+                    <li>Réaliser des plans de division parcellaire pour le cadastre.</li>
+                    <li>Effectuer des relevés d'intérieur ou de façade (Architecture).</li>
+                </ul>
+            </div>
+
+            <div class="skill-group">
+                <h3>🧠 Compétences Humaines (Savoir-être)</h3>
+                <ul>
+                    <li><strong>Mobilité :</strong> Aimer travailler en extérieur, par tous les temps.</li>
+                    <li><strong>Autonomie :</strong> Savoir se débrouiller seul face à un problème sur le terrain.</li>
+                    <li><strong>Prudence :</strong> Respecter strictement la sécurité (travail sur route, chantier).</li>
+                </ul>
+            </div>
+
+            <div class="skill-group">
+                <h3>🤝 Compétences Sociales</h3>
+                <ul>
+                    <li><strong>Diplomatie :</strong> Gérer les relations parfois tendues entre voisins (bornage).</li>
+                    <li><strong>Contact client :</strong> Intervenir chez des particuliers (politesse, discrétion).</li>
+                    <li><strong>Autorité technique :</strong> Faire respecter les bornes et limites posées.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer">
+        Document d'aide à l'orientation - Famille des Métiers des Études et de la Modélisation Numérique du Bâtiment (2EMNB)
+    </div>
+
+</div>
 
 </body>
 </html>
